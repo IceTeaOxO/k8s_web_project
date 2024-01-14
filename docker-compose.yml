@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: ./frontend/web-sample
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend # 確保前端在啟動之前後端已經啟動
+    networks:
+      - k8s-web-network
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "3001:3001"
+    networks:
+      - k8s-web-network # 將前端和後端放在相同的網路中
+
+networks:
+  k8s-web-network: # 定義一個網路，若有需要可以進行設定
+    external: true
